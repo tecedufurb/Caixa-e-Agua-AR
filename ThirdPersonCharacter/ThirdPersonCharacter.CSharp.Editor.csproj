@@ -117,6 +117,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Area730\UpdateManager\Editor\SimpleJSON.cs" />
+    <Compile Include="Assets\Area730\UpdateManager\Editor\UpdatesWindow.cs" />
     <Compile Include="Assets\Editor\Vuforia\SampleOrientationSetter.cs" />
     <Compile Include="Assets\SampleAssets\CrossPlatformInput\Scripts\Editor\CrossPlatformInputInitialize.cs" />
     <Compile Include="Assets\SampleAssets\CrossPlatformInput\Scripts\Editor\InputAxisScrollbarCI.cs" />
@@ -271,6 +273,7 @@
     <None Include="Assets\SamplesResources\ObjectReco\Shaders\ObjectReco_Custom_Outline.shader" />
     <None Include="Assets\SamplesResources\VuMark\Shaders\VuMark_Custom_OverlayMesh.shader" />
     <None Include="Assets\StreamingAssets\QCAR\CaixaDeAreia_Vuforia.xml" />
+    <None Include="Assets\StreamingAssets\QCAR\CaixaDeAreia_VuforiaFull.xml" />
     <None Include="Assets\StreamingAssets\QCAR\FlakesBox.xml" />
     <None Include="Assets\StreamingAssets\QCAR\StonesAndChips.xml" />
     <None Include="Assets\StreamingAssets\QCAR\StonesAndWood.xml" />

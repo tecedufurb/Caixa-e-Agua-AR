@@ -13,7 +13,7 @@ public class GCCamera : MonoBehaviour {
 
     public void EnableSound()
     {
-        AudioListener.volume = 1f; //Audio do jogo em 100%
+        AudioListener.volume = 0.5f; //Audio do jogo em 100%
     }
 
     public void DisableSound()

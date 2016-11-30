@@ -424,6 +424,7 @@
     <None Include="Assets\SamplesResources\ObjectReco\Shaders\ObjectReco_Custom_Outline.shader" />
     <None Include="Assets\SamplesResources\VuMark\Shaders\VuMark_Custom_OverlayMesh.shader" />
     <None Include="Assets\StreamingAssets\QCAR\CaixaDeAreia_Vuforia.xml" />
+    <None Include="Assets\StreamingAssets\QCAR\CaixaDeAreia_VuforiaFull.xml" />
     <None Include="Assets\StreamingAssets\QCAR\FlakesBox.xml" />
     <None Include="Assets\StreamingAssets\QCAR\StonesAndChips.xml" />
     <None Include="Assets\StreamingAssets\QCAR\StonesAndWood.xml" />

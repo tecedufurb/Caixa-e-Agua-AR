@@ -3,9 +3,9 @@
 //Está inserido no gameObject ThirdPersonCharacter
 
 using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 using System;
+using System.Collections.Generic;
 
 public class Question : MonoBehaviour
 {
@@ -52,15 +52,61 @@ public class Question : MonoBehaviour
     public GameObject m_question4;
     public GameObject m_question5;
     public GameObject m_question6;
+    public GameObject m_question7;
+    public GameObject m_question8;
 
     private float m_rightHits;                  //conta a quantidade de respostas certas
     private float m_wrongHits;                  //conta a quantidade de respostas erradas
     private bool m_clicked = false;             //utilizada para ver se o botao foi pressionado ou nao
     private float m_time = 10f;                 //armazena o tempo maximo que o titulo vai permanecer na tela
     private float m_timeFinalAnswer = 5f;       //armazena o tempo maximo que a mensagem de acerto ou erro vai permanecer na tela
-    private int m_currentQuestion;              //recebe o número da questão, que será referenciado no vetor respostas[]
+    //private int m_currentQuestion = 0;          //recebe o número da questão, que será referenciado no vetor respostas[]
+    private int[] m_currentQuestion = new int[8] {0, 1, 2, 3, 4, 5, 6, 7};
+    private int m_randomCurrentQuestion = 0;
     private int m_answeredQuestions;            //conta o numero de perguntas respondidas corretamente
     private bool m_boolRightAnswer = false;     //recebe true quando a resposta selecionada for a correta     
+    private int m_positionQuestion;
+    private int index;
+
+    void Awake() {
+        /*randQuestions = new int[5];
+        System.Random randNum = new System.Random();
+        for (int i = 0; i < 5; i++)
+        {
+            randQuestions[i] = randNum.Next(0, 4);
+            if () {
+
+            }
+            Debug.Log(randQuestions[i]);
+        }*/
+        /*System.Random randNum = new System.Random();
+        ordenedQuestions = new int[m_questions.Length];
+        for (int i = 0; i < (m_questions.Length -1); i++)
+        {
+            ordenedQuestions[i] = i;
+            Debug.Log(ordenedQuestions[i]);
+        }
+
+        int[] randQuestions;
+        int count = m_questions.Length;
+        System.Random rnd = new System.Random();
+        while (count > 0)
+        {
+            int index = rnd.Next(ordenedQuestions[count]);
+            randQuestions = ordenedQuestions[index];
+            count--;
+        }*/
+
+        /*foreach (int i in UniqueRandom(0, 6))
+        {
+            Console.WriteLine(i);
+        }*/
+
+        /*foreach (int i in UniqueRandom(0, m_questions.Length-2))
+        {
+            Debug.Log(i);
+        }*/
+    }
 
     void Update()
     {
@@ -127,6 +173,7 @@ public class Question : MonoBehaviour
     //chamado no OnClick() do buttonPergunta
     public void ButtonR()
     {
+        m_textFinalAnswer.text = "";
         m_panelPressButton.gameObject.SetActive(false);     //desativa o aviso para apertar o botao
         m_canvasQuestions.gameObject.SetActive(true);       //ativa o canvas das perguntas
         m_buttonShowQuestions.interactable = false;         //torna o buttonPergunta nao interativo (para nao poder recarregar a pergunta enquanto esta no collider)
@@ -143,30 +190,43 @@ public class Question : MonoBehaviour
             switch (collider.gameObject.name)
             {
                 case "Question1":
-                    m_currentQuestion = 0;
-                    QuestionAux(m_currentQuestion);
+                    m_positionQuestion = 1;
+                    QuestionAux(m_randomCurrentQuestion);
                     break;
                 case "Question2":
-                    m_currentQuestion = 1;
-                    QuestionAux(m_currentQuestion);
+                    m_positionQuestion = 2;
+                    QuestionAux(m_randomCurrentQuestion);
                     break;
                 case "Question3":
-                    m_currentQuestion = 2;
-                    QuestionAux(m_currentQuestion);
+                    m_positionQuestion = 3;
+                    QuestionAux(m_randomCurrentQuestion);
                     break;
                 case "Question4":
-                    m_currentQuestion = 3;
-                    QuestionAux(m_currentQuestion);
+                    m_positionQuestion = 4;
+                    QuestionAux(m_randomCurrentQuestion);
                     break;
                 case "Question5":
-                    m_currentQuestion = 4;
-                    QuestionAux(m_currentQuestion);
+                    m_positionQuestion = 5;
+                    QuestionAux(m_randomCurrentQuestion);
                     break;
                 case "Question6":
-                    m_currentQuestion = 5;
-                    QuestionAux(m_currentQuestion);
+                    m_positionQuestion = 6;
+                    QuestionAux(m_randomCurrentQuestion);
+                    break;
+                case "Question7":
+                    m_positionQuestion = 7;
+                    QuestionAux(m_randomCurrentQuestion);
+                    break;
+                case "Question8":
+                    m_positionQuestion = 8;
+                    QuestionAux(m_randomCurrentQuestion);
                     break;
             }
+
+            /*if (collider.gameObject == m_question1) {
+                QuestionAux(m_currentQuestion[m_randomCurrentQuestion]);
+                //m_currentQuestion++;
+            }*/
         }
         else
         {
@@ -176,11 +236,11 @@ public class Question : MonoBehaviour
 
     //Método que gerencia as perguntas. Chamado no Questions()
     private void QuestionAux(int currentQuestion) {
-        m_textQuestion.text = m_questions[currentQuestion];
-        m_textAnswerA.text = m_answerA[currentQuestion];
-        m_textAnswerB.text = m_answerB[currentQuestion];
-        m_textAnswerC.text = m_answerC[currentQuestion];
-        m_textAnswerD.text = m_answerD[currentQuestion];
+        m_textQuestion.text = m_questions[m_randomCurrentQuestion];
+        m_textAnswerA.text = m_answerA[m_randomCurrentQuestion];
+        m_textAnswerB.text = m_answerB[m_randomCurrentQuestion];
+        m_textAnswerC.text = m_answerC[m_randomCurrentQuestion];
+        m_textAnswerD.text = m_answerD[m_randomCurrentQuestion];
     }
 
     //método chamado no OnClick() dos 4 botões de alternativas de resposta (ao chamar o método é preciso passar a string dos cases no unity)
@@ -190,16 +250,16 @@ public class Question : MonoBehaviour
         switch (answer)
         {
             case "A":
-                RightWrongAnswer(m_answerA[m_currentQuestion]);
+                RightWrongAnswer(m_answerA[m_randomCurrentQuestion]);
                 break;
             case "B":
-                RightWrongAnswer(m_answerB[m_currentQuestion]);
+                RightWrongAnswer(m_answerB[m_randomCurrentQuestion]);
                 break;
             case "C":
-                RightWrongAnswer(m_answerC[m_currentQuestion]);
+                RightWrongAnswer(m_answerC[m_randomCurrentQuestion]);
                 break;
             case "D":
-                RightWrongAnswer(m_answerD[m_currentQuestion]);
+                RightWrongAnswer(m_answerD[m_randomCurrentQuestion]);
                 break;
         }
         m_answerAudio.Play();       //toca o som de resposta
@@ -208,7 +268,7 @@ public class Question : MonoBehaviour
     //metodo que verifica se a resposta esta certa ou errada. Recebe o vetor da pergunta como parametro
     private void RightWrongAnswer(string answer) {
         //se a resposta selecionada estiver certa a variavel m_hits é implementada e a m_respostaFinal informa "Você acertou!" em verde
-        if (answer == m_rightAnswers[m_currentQuestion])
+        if (answer == m_rightAnswers[m_randomCurrentQuestion])
         {
             m_clicked = true;                               //ao receber true faz com que as perguntas e alternativas desapareçam da tela
             m_rightHits++;
@@ -244,38 +304,59 @@ public class Question : MonoBehaviour
     private void DestroyQuestion(Collider collider)
     {
         switch (collider.gameObject.name)
-        {
-            case "Question1":
-                DestroyQuestionAux(m_question1);
-                break;
-            case "Question2":
-                DestroyQuestionAux(m_question2);
-                break;
-            case "Question3":
-                DestroyQuestionAux(m_question3);
-                break;
-            case "Question4":
-                DestroyQuestionAux(m_question4);
-                break;
-            case "Question5":
-                DestroyQuestionAux(m_question5);
-                break;
-            case "Question6":
-                DestroyQuestionAux(m_question6);
-                break;
-        }
+         {
+             case "Question1":
+                 DestroyQuestionAux(m_question1);
+                 break;
+             case "Question2":
+                 DestroyQuestionAux(m_question2);
+                 break;
+             case "Question3":
+                 DestroyQuestionAux(m_question3);
+                 break;
+             case "Question4":
+                 DestroyQuestionAux(m_question4);
+                 break;
+             case "Question5":
+                 DestroyQuestionAux(m_question5);
+                 break;
+             case "Question6":
+                 DestroyQuestionAux(m_question6);
+                 break;
+             case "Question7":
+                 DestroyQuestionAux(m_question7);
+                 break;
+             case "Question8":
+                 DestroyQuestionAux(m_question8);
+                 break;
+         }
+
+        /*if (collider.gameObject == m_question1) {
+            DestroyQuestionAux(m_question1);
+        }*/
     }
 
     //metodo que verifica se a resposta esta correta e, se estiver, destroi a pergunta
     private void DestroyQuestionAux(GameObject question) {
-        if ((m_answerA[m_currentQuestion] == m_rightAnswers[m_currentQuestion]) && (m_boolRightAnswer == true))
+        if ((m_answerA[m_randomCurrentQuestion] == m_rightAnswers[m_randomCurrentQuestion]) && (m_boolRightAnswer == true))
+        {
             Destroy(question);
-        else if ((m_answerB[m_currentQuestion] == m_rightAnswers[m_currentQuestion]) && (m_boolRightAnswer == true))
+            ActivateQuestions();
+        }
+        else if ((m_answerB[m_randomCurrentQuestion] == m_rightAnswers[m_randomCurrentQuestion]) && (m_boolRightAnswer == true))
+        {
             Destroy(question);
-        else if ((m_answerC[m_currentQuestion] == m_rightAnswers[m_currentQuestion]) && (m_boolRightAnswer == true))
+            ActivateQuestions();        }
+        else if ((m_answerC[m_randomCurrentQuestion] == m_rightAnswers[m_randomCurrentQuestion]) && (m_boolRightAnswer == true))
+        {
             Destroy(question);
-        else if ((m_answerD[m_currentQuestion] == m_rightAnswers[m_currentQuestion]) && (m_boolRightAnswer == true))
+            ActivateQuestions();
+        }
+        else if ((m_answerD[m_randomCurrentQuestion] == m_rightAnswers[m_randomCurrentQuestion]) && (m_boolRightAnswer == true))
+        {
             Destroy(question);
+            ActivateQuestions();
+        }
     }
 
     //chamado no OnClick() do botao do canvasFinal
@@ -283,5 +364,132 @@ public class Question : MonoBehaviour
         m_rightHits = 0;
         m_canvasFinal.gameObject.SetActive(false);
         m_canvasMain.gameObject.SetActive(true);
+    }
+
+    List<int> anterior = new List<int>(8);
+    private void ActivateQuestions() {
+
+        System.Random rnd = new System.Random();
+
+        //filho de Questions
+        //int[] posisaoX = new int[9] {745, -508, -2450, 60, -1582, -2418, -1073, -341, -1312};
+        //int[] posisaoY = new int[9] {-657, -1114, -658, -1900, -767, -2194, -2714, -372, -53};
+
+        //Global
+        //int[] posisaoX = new int[9] {1200, -272, -2556, 395, -1535, -2518, -937, -76, -1218};
+        //int[] posisaoY = new int[9] {1042, 505, 1041, -418, 913, -764, -1375, 1377, 1752};
+
+        //int randomX = posisaoX[rnd.Next(posisaoX.Length)];
+        //int randomY = posisaoY[rnd.Next(posisaoY.Length)];
+
+        //index = rnd.Next(0, m_questions.Length - 1);//UniqueRandom(0, m_questions.Length - 1);
+        
+        int aux = m_randomCurrentQuestion;
+        anterior.Add(aux);
+        
+        m_randomCurrentQuestion = rnd.Next(m_currentQuestion.Length);
+        m_randomCurrentQuestion = m_currentQuestion[m_randomCurrentQuestion];
+
+        if (m_currentQuestion.Length > 1)
+        {
+            while (anterior.Contains(m_randomCurrentQuestion))
+            {
+                m_randomCurrentQuestion = rnd.Next(m_currentQuestion.Length);
+                m_randomCurrentQuestion = m_currentQuestion[m_randomCurrentQuestion];
+                Debug.Log("Numero sorteado " + m_randomCurrentQuestion);
+            }
+        }
+        else {
+            m_randomCurrentQuestion = m_currentQuestion[0];
+        }
+        Debug.Log(m_randomCurrentQuestion);
+
+        //Debug.Log("index = " + index);
+        //Debug.Log("tamanho = " + m_questions.Length);
+
+        Debug.Log("index = " + m_randomCurrentQuestion);
+        Debug.Log("tamanho = " + m_currentQuestion.Length);
+
+        //GameObject newQuestion = Instantiate(m_question1, new Vector3(randomX, 0, randomY), Quaternion.identity) as GameObject;
+        //newQuestion.transform.parent = GameObject.Find("Questions").transform;
+
+        switch (m_positionQuestion)
+        {
+            case 1:
+                m_question2.gameObject.SetActive(true);
+                break;
+            case 2:
+                m_question3.gameObject.SetActive(true);
+                break;
+            case 3:
+                m_question4.gameObject.SetActive(true);
+                break;
+            case 4:
+                m_question5.gameObject.SetActive(true);
+                break;
+            case 5:
+                m_question6.gameObject.SetActive(true);
+                break;
+            case 6:
+                m_question7.gameObject.SetActive(true);
+                break;
+            case 7:
+                m_question8.gameObject.SetActive(true);
+                break;
+        }
+
+        //m_questions = this.removeFromArray(m_questions, index);
+        m_currentQuestion = this.removeFromArray(m_currentQuestion, aux);
+    }
+
+    /// Returns all numbers, between min and max inclusive, once in a random sequence.
+    IEnumerable<int> UniqueRandom(int minInclusive, int maxInclusive)
+    {
+        List<int> candidates = new List<int>();
+        for (int i = minInclusive; i <= maxInclusive; i++)
+        {
+            candidates.Add(i);
+        }
+        System.Random rnd = new System.Random();
+        while (candidates.Count > 0)
+        {
+            index = rnd.Next(candidates.Count);
+            yield return candidates[index];
+            candidates.RemoveAt(index);
+        }
+    }
+
+    /*private string[] removeFromArray(string [] array, int index) 
+    {
+        string [] novoArray = new string[array.Length-1];
+        int posAtual = 0;
+        for (int i = 0; i < array.Length; i++) {
+            if (index != i) {
+                novoArray[posAtual] = array[i];
+                i++;
+            }
+        }
+        return novoArray;
+    }*/
+
+    private int[] removeFromArray(int[] array, int index)
+    {
+        int[] novoArray = new int[array.Length - 1];
+        string chegou = "";
+        string saiu = "";
+        int posAtual = 0;
+        for (int i = 0; i < array.Length; i++)
+        {
+            chegou += array[i] + ", ";
+            if (index != array[i])
+            {
+                novoArray[posAtual] = array[i];
+                saiu += novoArray[posAtual] + ", ";
+                posAtual++;
+            }
+        }
+        Debug.Log("Chegou = " + chegou);
+        Debug.Log("Saiu = " + saiu);
+        return novoArray;
     }
 }
